@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API 데이터 표시 예시</title>
+</head>
+<body>
+<h1>서버로부터 받은 데이터</h1>
+<div id="apiData">로딩 중...</div>
+
+<script>
+    // 서버에서 데이터를 가져오는 함수
+    function fetchData() {
+        fetch('http://localhost:8080/api-endpoint') // 여기에 서버의 API 엔드포인트 URL을 입력하세요
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('네트워크 응답이 올바르지 않습니다.');
+            }
+            return response.json(); // JSON 형태로 데이터를 파싱합니다.
+        })
+        .then(data => {
+            document.getElementById('apiData').innerHTML = JSON.stringify(data, null, 2);
+        })
+        .catch(error => {
+            console.error('API 요청 중 오류 발생:', error);
+            document.getElementById('apiData').innerHTML = '데이터를 불러오는데 실패했습니다.';
+        });
+    }
+
+    // 페이지 로드 시 데이터 가져오기
+    window.onload = fetchData;
+</script>
+</body>
+</html>
