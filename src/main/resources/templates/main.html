@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>주식 데이터</title>
+    <style>
+        div {
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+    }
+    </style>
+</head>
+<body>
+<div id="prdyCtrtData">전날 대비 상승률 Top 10</div>
+<div id="perData">PER 하위 10개</div>
+<div id="pbrData">PBR 하위 10개</div>
+<div>안녕하세용</div>
+<a1>안녕하새용</a1>
+
+<script>
+    function fetchData(url, elementId) {
+         fetch(url)
+             .then(response => {
+                 if (!response.ok) {
+                     throw new Error('Network response was not ok');
+                 }
+                 return response.json();
+             })
+             .then(data => {
+                 const element = document.getElementById(elementId);
+                 element.innerHTML = JSON.stringify(data, null, 2); // JSON 형태로 데이터 표시
+             })
+             .catch(error => console.error('Fetch error:', error));
+     }
+
+     fetchData('http://your-backend-server.com/api/maindata/bottom10PrdyCtrt', 'prdyCtrtData');
+     fetchData('http://your-backend-server.com/api/maindata/bottom10Per', 'perData');
+     fetchData('http://your-backend-server.com/api/maindata/bottom10Pbr', 'pbrData');
+</script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Main Data</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<div th:if="${userName}">
+    Logged in as: <span th:text="${userName}" id="user"></span>
+    <a href="/logout" class="btn btn-info active" role="button">Logout</a>
+</div>
+
+<div th:unless="${userName}">
+    <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
+
+</div>
+
+
+<h2>Main Data List</h2>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>업종 한글 종목명</th>
+        <th>주식 현재가</th>
+        <th>전일 대비</th>
+        <th>전일 대비 부호</th>
+        <th>전일 대비율</th>
+        <th>누적 거래량</th>
+        <th>거래량 대비율</th>
+        <th>주식 시가</th>
+        <th>주식 최고가</th>
+        <th>주식 하한가</th>
+        <th>주식 기준가</th>
+        <th>시가총액</th>
+        <th>PER</th>
+        <th>PBR</th>
+        <th>자본금 통화명</th>
+        <th>주식 코드</th>
+        <th>달러로 변환된 주식 현재가</th>
+        <th>달러로 변환된 시가 총액</th>
+        <!-- DataEntity 관련 필드 -->
+        <th>관련 주식명</th>
+        <th>관련 주식 영문명</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="data : ${mainDataList}">
+        <td th:text="${data.id}"></td>
+        <td th:text="${data.bstpKorIsnm}"></td>
+        <td th:text="${data.stckPrpr}"></td>
+        <td th:text="${data.prdyVrss}"></td>
+        <td th:text="${data.prdyVrssSign}"></td>
+        <td th:text="${data.prdyCtrt}"></td>
+        <td th:text="${data.acmlVol}"></td>
+        <td th:text="${data.prdyVrssVolRate}"></td>
+        <td th:text="${data.stckOprc}"></td>
+        <td th:text="${data.stckHgpr}"></td>
+        <td th:text="${data.stckLwpr}"></td>
+        <td th:text="${data.stckSdpr}"></td>
+        <td th:text="${data.htsAvlsHTS}"></td>
+        <td th:text="${data.per}"></td>
+        <td th:text="${data.pbr}"></td>
+        <td th:text="${data.cpfnCnnm}"></td>
+        <td th:text="${data.stockCodes}"></td>
+        <td th:text="${data.stckPrprInUSD}"></td>
+        <td th:text="${data.HtsAvlsHTSInUSD}"></td>
+
+        <!-- DataEntity 관련 필드 -->
+        <td th:text="${data.dataEntity.stockName}"></td>
+        <td th:text="${data.dataEntity.englishName}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Top Gainers by Percentage</h2>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>업종 한글 종목명</th>
+        <th>주식 현재가</th>
+        <th>전일 대비</th>
+        <th>전일 대비 부호</th>
+        <th>전일 대비율</th>
+        <th>누적 거래량</th>
+        <!-- 필요한 다른 필드들 추가 -->
+        <th>관련 주식명</th>
+        <th>관련 주식 영문명</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="data : ${mainDataList1}">
+        <td th:text="${data.id}"></td>
+        <td th:text="${data.bstpKorIsnm}"></td>
+        <td th:text="${data.stckPrpr}"></td>
+        <td th:text="${data.prdyVrss}"></td>
+        <td th:text="${data.prdyVrssSign}"></td>
+        <td th:text="${data.prdyCtrt}"></td>
+        <td th:text="${data.acmlVol}"></td>
+        <!-- 필요한 다른 필드들의 데이터를 표시하는 코드 추가 -->
+        <td th:text="${data.dataEntity.stockName}"></td>
+        <td th:text="${data.dataEntity.englishName}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Top Decliners by Percentage</h2>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>업종 한글 종목명</th>
+        <th>주식 현재가</th>
+        <th>전일 대비</th>
+        <th>전일 대비 부호</th>
+        <th>전일 대비율</th>
+        <th>누적 거래량</th>
+        <!-- 필요한 다른 필드들 추가 -->
+        <th>관련 주식명</th>
+        <th>관련 주식 영문명</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="data : ${mainDataList2}">
+        <td th:text="${data.id}"></td>
+        <td th:text="${data.bstpKorIsnm}"></td>
+        <td th:text="${data.stckPrpr}"></td>
+        <td th:text="${data.prdyVrss}"></td>
+        <td th:text="${data.prdyVrssSign}"></td>
+        <td th:text="${data.prdyCtrt}"></td>
+        <td th:text="${data.acmlVol}"></td>
+        <!-- 필요한 다른 필드들의 데이터를 표시하는 코드 추가 -->
+        <td th:text="${data.dataEntity.stockName}"></td>
+        <td th:text="${data.dataEntity.englishName}"></td>
+    </tr>
+    </tbody>
+</table>
+<h2>Top Stocks with Low PER</h2>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>업종 한글 종목명</th>
+        <th>주식 현재가</th>
+        <th>전일 대비</th>
+        <th>전일 대비 부호</th>
+        <th>전일 대비율</th>
+        <th>누적 거래량</th>
+        <!-- 필요한 다른 필드들 추가 -->
+        <th>관련 주식명</th>
+        <th>관련 주식 영문명</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="data : ${mainDataList3}">
+        <td th:text="${data.id}"></td>
+        <td th:text="${data.bstpKorIsnm}"></td>
+        <td th:text="${data.stckPrpr}"></td>
+        <td th:text="${data.prdyVrss}"></td>
+        <td th:text="${data.prdyVrssSign}"></td>
+        <td th:text="${data.prdyCtrt}"></td>
+        <td th:text="${data.acmlVol}"></td>
+        <!-- 필요한 다른 필드들의 데이터를 표시하는 코드 추가 -->
+        <td th:text="${data.dataEntity.stockName}"></td>
+        <td th:text="${data.dataEntity.englishName}"></td>
+    </tr>
+    </tbody>
+</table>
+<h2>Top Stocks with Low PBR</h2>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>업종 한글 종목명</th>
+        <th>주식 현재가</th>
+        <th>전일 대비</th>
+        <th>전일 대비 부호</th>
+        <th>전일 대비율</th>
+        <th>누적 거래량</th>
+        <!-- 필요한 다른 필드들 추가 -->
+        <th>관련 주식명</th>
+        <th>관련 주식 영문명</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="data : ${mainDataList4}">
+        <td th:text="${data.id}"></td>
+        <td th:text="${data.bstpKorIsnm}"></td>
+        <td th:text="${data.stckPrpr}"></td>
+        <td th:text="${data.prdyVrss}"></td>
+        <td th:text="${data.prdyVrssSign}"></td>
+        <td th:text="${data.prdyCtrt}"></td>
+        <td th:text="${data.acmlVol}"></td>
+        <!-- 필요한 다른 필드들의 데이터를 표시하는 코드 추가 -->
+        <td th:text="${data.dataEntity.stockName}"></td>
+        <td th:text="${data.dataEntity.englishName}"></td>
+    </tr>
+    </tbody>
+</table>
+
+
+
+
+</body>
+</html>

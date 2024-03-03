@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}">List View</title>
+</head>
+<body>
+<h2 th:text="${title}">List Title</h2>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>PrdyCtrt</th>
+        <th>Per</th>
+        <th>Pbr</th>
+        <!-- 필요한 다른 헤더들 추가 -->
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${list}">
+        <td th:text="${item.id}">ID</td>
+        <td th:text="${item.prdyCtrt}">PrdyCtrt</td>
+        <td th:text="${item.per}">Per</td>
+        <td th:text="${item.pbr}">Pbr</td>
+        <!-- 필요한 다른 데이터 필드들 추가 -->
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

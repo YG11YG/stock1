@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Data List</title>
+</head>
+<body>
+<h2>Data List</h2>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Stock Code</th>
+        <th>Stock Name</th>
+        <th>English Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="data : ${dataList}">
+        <td th:text="${data.id}"></td>
+        <td th:text="${data.stockCode}"></td>
+        <td th:text="${data.stockName}"></td>
+        <td th:text="${data.englishName}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

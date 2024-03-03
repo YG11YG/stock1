@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main Data List</title>
+    <!-- 필요한 CSS나 JavaScript 파일을 여기에 포함시킬 수 있습니다 -->
+</head>
+<body>
+<h1>Main Data List</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>업종 한글 종목명</th>
+        <th>주식 현재가</th>
+        <th>전일 대비</th>
+        <th>전일 대비율</th>
+        <th>누적 거래량</th>
+        <th>주식 시가</th>
+        <th>주식 최고가</th>
+        <th>주식 하한가</th>
+        <th>주식 기준가</th>
+        <th>시가총액</th>
+        <th>PER</th>
+        <th>PBR</th>
+        <th>자본금 통화명</th>
+        <th>주식 코드</th>
+        <th>달러로 변환된 주식 현재가</th>
+        <th>English Name (DataEntity)</th> <!-- DataEntity의 English Name 추가 -->
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="mainDataList : ${mainDataList}">
+        <td th:text="${mainData.id}"></td>
+        <td th:text="${mainData.bstpKorIsnm}"></td>
+        <td th:text="${mainData.stckPrpr}"></td>
+        <td th:text="${mainData.prdyVrss}"></td>
+        <td th:text="${mainData.prdyCtrt}"></td>
+        <td th:text="${mainData.acmlVol}"></td>
+        <td th:text="${mainData.stckOprc}"></td>
+        <td th:text="${mainData.stckHgpr}"></td>
+        <td th:text="${mainData.stckLwpr}"></td>
+        <td th:text="${mainData.stckSdpr}"></td>
+        <td th:text="${mainData.htsAvlsHTS}"></td>
+        <td th:text="${mainData.per}"></td>
+        <td th:text="${mainData.pbr}"></td>
+        <td th:text="${mainData.cpfnCnnm}"></td>
+        <td th:text="${mainData.stockCodes}"></td>
+        <td th:text="${mainData.stckPrprInUSD}"></td>
+        <td th:text="${mainData.dataEntity.englishName}"></td> <!-- DataEntity의 English Name 표시 -->
+        <td th:text="${mainData.dataEntity.stockName}"></td>
+    </tr>
+    </tbody>
+</table>
+
+
+
+
+<h2>Top 10 PrdyCtrt Ascending</h2>
+<table th:if="${!top10PrdyCtrtAsc.isEmpty()}">
+    <tr>
+        <th>ID</th>
+        <th>PrdyCtrt</th>
+        <th>English Name (DataEntity)</th>
+        <!-- 필요한 다른 헤더들 추가 -->
+    </tr>
+    <tr th:each="item : ${top10PrdyCtrtAsc}">
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.prdyCtrt}"></td>
+        <td th:text="${mainData.dataEntity.englishName}"></td>
+        <!-- 필요한 다른 데이터 필드들 추가 -->
+    </tr>
+</table>
+
+<h2>Top 10 Per Ascending</h2>
+<table th:if="${!top10PerAsc.isEmpty()}">
+    <tr>
+        <th>ID</th>
+        <th>Per</th>
+
+        <!-- 필요한 다른 헤더들 추가 -->
+    </tr>
+    <tr th:each="item : ${top10PerAsc}">
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.per}"></td>
+        <!-- 필요한 다른 데이터 필드들 추가 -->
+    </tr>
+</table>
+
+<h2>Top 10 Pbr Ascending</h2>
+<table th:if="${!top10PbrAsc.isEmpty()}">
+    <tr>
+        <th>ID</th>
+        <th>Pbr</th>
+        <!-- 필요한 다른 헤더들 추가 -->
+    </tr>
+    <tr th:each="item : ${top10PbrAsc}">
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.pbr}"></td>
+        <!-- 필요한 다른 데이터 필드들 추가 -->
+    </tr>
+</table>
+</body>
+</html>
