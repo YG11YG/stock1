@@ -1,220 +1,210 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="/js/like.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/maindata.css">
+
+
     <title>Main Data</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
+
+
+
     </style>
 </head>
 <body>
 
-<div th:if="${userName}">
-    Logged in as: <span th:text="${userName}" id="user"></span>
-    <a href="/logout" class="btn btn-info active" role="button">Logout</a>
+
+
+
+<div class="top-bar">
+    <div th:if="${userName}">
+        Logged in as: <span th:text="${userName}" id="user"></span>
+        <a href="/logout" class="btn btn-info active" role="button">Logout</a>
+    </div>
+
+    <div th:unless="${userName}">
+        <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
+    </div>
+
+    <form action="/search" method="get">
+        <input type="text" name="keyword" placeholder="주식 이름 검색...">
+        <button type="submit">검색</button>
+    </form>
 </div>
 
-<div th:unless="${userName}">
-    <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
-
-</div>
 
 
-<h2>Main Data List</h2>
+
+
+
+<h4>Watchlist </h4>
+
+
+<!--
+<div>
+    <div th:each="like : ${userLikes}" class="stock-item">
+
+        <div th:text="${like.mainDataEntity.dataEntity.englishName}">주식명</div>
+         여기에 추가적인 좋아요 항목 정보를 표시할 수 있습니다.
+    </div>
+</div>-->
+
+
+
 <table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>업종 한글 종목명</th>
-        <th>주식 현재가</th>
-        <th>전일 대비</th>
-        <th>전일 대비 부호</th>
-        <th>전일 대비율</th>
-        <th>누적 거래량</th>
-        <th>거래량 대비율</th>
-        <th>주식 시가</th>
-        <th>주식 최고가</th>
-        <th>주식 하한가</th>
-        <th>주식 기준가</th>
-        <th>시가총액</th>
-        <th>PER</th>
-        <th>PBR</th>
-        <th>자본금 통화명</th>
-        <th>주식 코드</th>
-        <th>달러로 변환된 주식 현재가</th>
-        <th>달러로 변환된 시가 총액</th>
-        <!-- DataEntity 관련 필드 -->
-        <th>관련 주식명</th>
-        <th>관련 주식 영문명</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="data : ${mainDataList}">
-        <td th:text="${data.id}"></td>
-        <td th:text="${data.bstpKorIsnm}"></td>
-        <td th:text="${data.stckPrpr}"></td>
-        <td th:text="${data.prdyVrss}"></td>
-        <td th:text="${data.prdyVrssSign}"></td>
-        <td th:text="${data.prdyCtrt}"></td>
-        <td th:text="${data.acmlVol}"></td>
-        <td th:text="${data.prdyVrssVolRate}"></td>
-        <td th:text="${data.stckOprc}"></td>
-        <td th:text="${data.stckHgpr}"></td>
-        <td th:text="${data.stckLwpr}"></td>
-        <td th:text="${data.stckSdpr}"></td>
-        <td th:text="${data.htsAvlsHTS}"></td>
-        <td th:text="${data.per}"></td>
-        <td th:text="${data.pbr}"></td>
-        <td th:text="${data.cpfnCnnm}"></td>
-        <td th:text="${data.stockCodes}"></td>
-        <td th:text="${data.stckPrprInUSD}"></td>
-        <td th:text="${data.HtsAvlsHTSInUSD}"></td>
+    <div class="stock-list">
+        <div th:each="like : ${userLikes}" class="stock-item" th:data-stock-id="${like.mainDataEntity.id}">
+            <div class="stock-info">
+                <div class="stock-name">
+                    <a th:href="@{/stock/{id}(id=${like.mainDataEntity.id})}" th:text="${like.mainDataEntity.dataEntity.englishName}">주식명</a>
+                </div>
+                <div class="stock-code" th:text="${like.mainDataEntity.stockCodes}">주식코드</div>
+            </div>
+            <div class="stock9">
+                <div class="stock-price" th:text="${like.mainDataEntity.stckPrprInUSD} + ' USD'">주식 현재가</div>
+                <div class="stock-change" th:classappend="${like.mainDataEntity.prdyCtrt >= 0 ? 'positive' : 'negative'}">
+                    <span th:text="${like.mainDataEntity.prdyCtrt > 0 ? '▲ ' + like.mainDataEntity.prdyVrss : (like.mainDataEntity.prdyCtrt < 0 ? '▼ ' + like.mainDataEntity.prdyVrss : '')}">변동 값</span>
+                    <span th:text="${like.mainDataEntity.prdyCtrt} + '%'">전일 대비율</span>
+                </div>
+            </div>
+            <div class="like-button">
+                <button class="like-button" th:onclick="'javascript:toggleLike(' + ${like.mainDataEntity.id} + ');'">♥</button>
+            </div>
 
-        <!-- DataEntity 관련 필드 -->
-        <td th:text="${data.dataEntity.stockName}"></td>
-        <td th:text="${data.dataEntity.englishName}"></td>
-    </tr>
-    </tbody>
+        </div>
+
+    </div>
+    </div>
+
 </table>
 
-<h2>Top Gainers by Percentage</h2>
+
+
+
+
+<h4>Top Gainers by Percentage</h4>
 <table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>업종 한글 종목명</th>
-        <th>주식 현재가</th>
-        <th>전일 대비</th>
-        <th>전일 대비 부호</th>
-        <th>전일 대비율</th>
-        <th>누적 거래량</th>
-        <!-- 필요한 다른 필드들 추가 -->
-        <th>관련 주식명</th>
-        <th>관련 주식 영문명</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="data : ${mainDataList1}">
-        <td th:text="${data.id}"></td>
-        <td th:text="${data.bstpKorIsnm}"></td>
-        <td th:text="${data.stckPrpr}"></td>
-        <td th:text="${data.prdyVrss}"></td>
-        <td th:text="${data.prdyVrssSign}"></td>
-        <td th:text="${data.prdyCtrt}"></td>
-        <td th:text="${data.acmlVol}"></td>
-        <!-- 필요한 다른 필드들의 데이터를 표시하는 코드 추가 -->
-        <td th:text="${data.dataEntity.stockName}"></td>
-        <td th:text="${data.dataEntity.englishName}"></td>
-    </tr>
-    </tbody>
+    <div class="stock-list">
+        <div th:each="stock : ${mainDataList1}" class="stock-item" th:data-stock-id="${stock.id}">
+            <div class="stock-info">
+                <div class="stock-name">
+                    <a th:href="@{/stock/{id}(id=${stock.id})}" th:text="${stock.dataEntity.englishName}">주식명</a>
+                </div>
+                <div class="stock-code" th:text="${stock.stockCodes}">주식코드</div>
+            </div>
+            <div class="stock9">
+                <div class="stock-price" th:text="${stock.stckPrprInUSD} + ' USD'">주식 현재가</div>
+                <div class="stock-change" th:classappend="${stock.prdyCtrt >= 0 ? 'positive' : 'negative'}">
+                    <span th:text="${stock.prdyCtrt > 0 ? '▲ ' + stock.prdyVrss : (stock.prdyCtrt < 0 ? '▼ ' + stock.prdyVrss : '')}">변동 값</span>
+                    <span th:text="${stock.prdyCtrt} + '%'">전일 대비율</span>
+                </div>
+            </div>
+            <div class="like-button">
+                <button class="like-button" th:onclick="'javascript:toggleLike(' + ${stock.id} + ');'">♥</button>
+            </div>
+
+        </div>
+
+    </div>
+    </div>
+
 </table>
 
-<h2>Top Decliners by Percentage</h2>
+<h4>Top Decliners by Percentage</h4>
 <table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>업종 한글 종목명</th>
-        <th>주식 현재가</th>
-        <th>전일 대비</th>
-        <th>전일 대비 부호</th>
-        <th>전일 대비율</th>
-        <th>누적 거래량</th>
-        <!-- 필요한 다른 필드들 추가 -->
-        <th>관련 주식명</th>
-        <th>관련 주식 영문명</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="data : ${mainDataList2}">
-        <td th:text="${data.id}"></td>
-        <td th:text="${data.bstpKorIsnm}"></td>
-        <td th:text="${data.stckPrpr}"></td>
-        <td th:text="${data.prdyVrss}"></td>
-        <td th:text="${data.prdyVrssSign}"></td>
-        <td th:text="${data.prdyCtrt}"></td>
-        <td th:text="${data.acmlVol}"></td>
-        <!-- 필요한 다른 필드들의 데이터를 표시하는 코드 추가 -->
-        <td th:text="${data.dataEntity.stockName}"></td>
-        <td th:text="${data.dataEntity.englishName}"></td>
-    </tr>
-    </tbody>
+    <div class="stock-list">
+        <div th:each="stock : ${mainDataList2}" class="stock-item" th:data-stock-id="${stock.id}">
+            <div class="stock-info">
+                <div class="stock-name">
+                    <a th:href="@{/stock/{id}(id=${stock.id})}" th:text="${stock.dataEntity.englishName}">주식명</a>
+                </div>
+                <div class="stock-code" th:text="${stock.stockCodes}">주식코드</div>
+            </div>
+            <div class="stock9">
+                <div class="stock-price" th:text="${stock.stckPrprInUSD} + ' USD'">주식 현재가</div>
+                <div class="stock-change" th:classappend="${stock.prdyCtrt >= 0 ? 'positive' : 'negative'}">
+                    <span th:text="${stock.prdyCtrt > 0 ? '▲ ' + stock.prdyVrss : (stock.prdyCtrt < 0 ? '▼ ' + stock.prdyVrss : '')}">변동 값</span>
+                    <span th:text="${stock.prdyCtrt} + '%'">전일 대비율</span>
+                </div>
+            </div>
+            <div class="like-button">
+                <button class="like-button" th:onclick="'javascript:toggleLike(' + ${stock.id} + ');'">♥</button>
+            </div>
+
+        </div>
+
+    </div>
+    </div>
+
 </table>
-<h2>Top Stocks with Low PER</h2>
+
+<h4>Top Stocks with Low PER</h4>
 <table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>업종 한글 종목명</th>
-        <th>주식 현재가</th>
-        <th>전일 대비</th>
-        <th>전일 대비 부호</th>
-        <th>전일 대비율</th>
-        <th>누적 거래량</th>
-        <!-- 필요한 다른 필드들 추가 -->
-        <th>관련 주식명</th>
-        <th>관련 주식 영문명</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="data : ${mainDataList3}">
-        <td th:text="${data.id}"></td>
-        <td th:text="${data.bstpKorIsnm}"></td>
-        <td th:text="${data.stckPrpr}"></td>
-        <td th:text="${data.prdyVrss}"></td>
-        <td th:text="${data.prdyVrssSign}"></td>
-        <td th:text="${data.prdyCtrt}"></td>
-        <td th:text="${data.acmlVol}"></td>
-        <!-- 필요한 다른 필드들의 데이터를 표시하는 코드 추가 -->
-        <td th:text="${data.dataEntity.stockName}"></td>
-        <td th:text="${data.dataEntity.englishName}"></td>
-    </tr>
-    </tbody>
+    <div class="stock-list">
+        <div th:each="stock : ${mainDataList3}" class="stock-item" th:data-stock-id="${stock.id}">
+            <div class="stock-info">
+                <div class="stock-name">
+                    <a th:href="@{/stock/{id}(id=${stock.id})}" th:text="${stock.dataEntity.englishName}">주식명</a>
+                </div>
+                <div class="stock-code" th:text="${stock.stockCodes}">주식코드</div>
+            </div>
+            <div class="stock9">
+                <div class="stock-price" th:text="${stock.stckPrprInUSD} + ' USD'">주식 현재가</div>
+                <div class="stock-change" th:classappend="${stock.prdyCtrt >= 0 ? 'positive' : 'negative'}">
+                    <span th:text="${stock.prdyCtrt > 0 ? '▲ ' + stock.prdyVrss : (stock.prdyCtrt < 0 ? '▼ ' + stock.prdyVrss : '')}">변동 값</span>
+                    <span th:text="${stock.prdyCtrt} + '%'">전일 대비율</span>
+                </div>
+            </div>
+            <div class="like-button">
+                <button class="like-button" th:onclick="'javascript:toggleLike(' + ${stock.id} + ');'">♥</button>
+            </div>
+
+        </div>
+
+    </div>
+    </div>
+
 </table>
-<h2>Top Stocks with Low PBR</h2>
+
+<h4>Top Stocks with Low PBR</h4>
 <table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>업종 한글 종목명</th>
-        <th>주식 현재가</th>
-        <th>전일 대비</th>
-        <th>전일 대비 부호</th>
-        <th>전일 대비율</th>
-        <th>누적 거래량</th>
-        <!-- 필요한 다른 필드들 추가 -->
-        <th>관련 주식명</th>
-        <th>관련 주식 영문명</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="data : ${mainDataList4}">
-        <td th:text="${data.id}"></td>
-        <td th:text="${data.bstpKorIsnm}"></td>
-        <td th:text="${data.stckPrpr}"></td>
-        <td th:text="${data.prdyVrss}"></td>
-        <td th:text="${data.prdyVrssSign}"></td>
-        <td th:text="${data.prdyCtrt}"></td>
-        <td th:text="${data.acmlVol}"></td>
-        <!-- 필요한 다른 필드들의 데이터를 표시하는 코드 추가 -->
-        <td th:text="${data.dataEntity.stockName}"></td>
-        <td th:text="${data.dataEntity.englishName}"></td>
-    </tr>
-    </tbody>
+    <div class="stock-list">
+        <div th:each="stock : ${mainDataList4}" class="stock-item" th:data-stock-id="${stock.id}">
+            <div class="stock-info">
+                <div class="stock-name">
+                    <a th:href="@{/stock/{id}(id=${stock.id})}" th:text="${stock.dataEntity.englishName}">주식명</a>
+                </div>
+                <div class="stock-code" th:text="${stock.stockCodes}">주식코드</div>
+            </div>
+            <div class="stock9">
+                <div class="stock-price" th:text="${stock.stckPrprInUSD} + ' USD'">주식 현재가</div>
+                <div class="stock-change" th:classappend="${stock.prdyCtrt >= 0 ? 'positive' : 'negative'}">
+                    <span th:text="${stock.prdyCtrt > 0 ? '▲ ' + stock.prdyVrss : (stock.prdyCtrt < 0 ? '▼ ' + stock.prdyVrss : '')}">변동 값</span>
+                    <span th:text="${stock.prdyCtrt} + '%'">전일 대비율</span>
+                </div>
+            </div>
+            <div class="like-button">
+                <button class="like-button" th:onclick="'javascript:toggleLike(' + ${stock.id} + ');'">♥</button>
+            </div>
+
+        </div>
+
+    </div>
+    </div>
+
 </table>
 
 
 
 
 </body>
+
+
+
+
 </html>

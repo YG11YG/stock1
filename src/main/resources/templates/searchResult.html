@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/searchResult.css">
+    <title>검색 결과</title>
+</head>
+<body>
+<h1>검색 결과</h1>
+
+<div class="stock-list">
+    <div th:each="stock : ${searchResults}" class="stock-item">
+
+
+        <div class="stock-name">
+            <a th:href="@{/stock/{id}(id=${stock.id})}" th:text="${stock.englishName}">주식명</a>
+        </div>
+
+
+
+
+        <div class="stock-code" th:text="${stock.stockCodes}">주식코드</div>
+    </div>
+</div>
+
+<a href="/maindata">홈으로 돌아가기</a>
+</body>
+</html>

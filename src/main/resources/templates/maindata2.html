@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- 좋아요 리스트를 표시할 부분 -->
+<div id="likesList">
+    <div th:each="like : ${userLikes}" class="stock-item">
+        <!-- Thymeleaf를 사용하여 좋아요 항목에 대한 내용을 표시 -->
+        <div  th:text="${like.mainDataEntity.dataEntity.englishName}">주식명</div>
+        <!-- 여기에 추가적인 좋아요 항목 정보를 표시할 수 있습니다. -->
+    </div>
+</div>
+
+</body>
+</html>

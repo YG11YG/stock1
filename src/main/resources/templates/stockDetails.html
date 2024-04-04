@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>종목 상세 정보</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/stockDetails.css">
+    <script src="/js/like.js"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="title-and-like">
+
+        <div class="title" th:text="${stock.dataEntity.englishName}">주식명</div>
+
+        <button class="like-button" th:classappend="${isLiked} ? 'liked'" th:onclick="'javascript:toggleLike(' + ${stock.id} + ');'">♥</button>
+    </div>
+
+
+    <div class="stat-grid">
+
+        <div class="stat-card">
+            <h3>Stock Code</h3>
+            <p th:text="${stock.stockCodes}">주식 코드 값</p>
+        </div>
+        <!-- 나머지 정보 카드들도 아래와 같이 추가 -->
+        <div class="stat-card">
+            <h3>Current Price</h3>
+            <p th:text="${stock.stckPrprInUSD}">주식 현재가 값</p>
+        </div>
+        <div class="stat-card">
+            <h3>Day Change</h3>
+            <p th:text="${stock.prdyVrssUSD}">전일 대비 값</p>
+        </div>
+        <!-- 이하 동일한 방식으로 다른 데이터 필드를 추가 -->
+        <div class="stat-card">
+            <h3>Market Cap</h3>
+            <p th:text="${stock.HtsAvlsHTSInUSD}">시가총액</p>
+        </div>
+        <div class="stat-card">
+            <h3>PER</h3>
+            <p th:text="${stock.per}">PER</p>
+        </div>
+        <div class="stat-card">
+            <h3>PBR</h3>
+            <p th:text="${stock.pbr}">PBR</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>Foreign Holdings</h3>
+            <p th:text="${stock.frgnHldnQty}">외국인 거래</p>
+        </div>
+
+
+
+        <div class="stat-card">
+            <h3>Trading Volume</h3>
+            <p th:text="${stock.acmlVol}">누적 거래량</p>
+        </div>
+
+
+
+        <div class="stat-card">
+            <h3>EPS</h3>
+            <p th:text="${stock.eps}">EPS</p>
+        </div>
+
+
+
+
+
+
+
+
+    </div>
+    <div class="footer">USD</div>
+    <div class="footer">현재 시간</div>
+</div>
+
+</body>
+</html>

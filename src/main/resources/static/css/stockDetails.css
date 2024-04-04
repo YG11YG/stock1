@@ -1,0 +1,98 @@
+
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-gap: 10px;
+  margin-bottom: 20px;
+  width: 24.375rem; /* 가로 사이즈를 24.375rem으로 설정 */
+  margin: 0 auto; /* 가운데 정렬을 위해 추가 */
+}
+
+
+
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #1f1f1f;
+  color: white;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  text-align: center;
+  width: 80%;
+  max-width: 500px;
+}
+
+.title {
+   font-size: 1.5em;
+  margin-bottom: 1.25rem;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-gap: 10px;
+  margin-bottom: 20px;
+}
+
+
+
+.stat-card {
+  background-color: #333;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.stat-card h3 {
+  margin: 0;
+  font-size: 0.5em;
+  color: #aaa;
+}
+
+.stat-card p {
+  margin: 0;
+  font-size: 0.8em;
+  color: #ddd;
+}
+
+.footer {
+  font-size: 0.4em;
+  text-align: right;
+  margin-top: 0.5rem;
+  margin-right: 1.5rem; /* 왼쪽에 2rem 마진 추가 */
+}
+
+
+.title-and-like {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.like-button {
+    /* 좋아요 버튼 스타일 지정 */
+    text-align: right;
+    justify-content: flex-end;
+    flex-basis: 10%;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 2rem; /* 하트 크기 조절 */
+    color: #ccc; /* 기본 색상: 회색 또는 빈 하트 표현 */
+    margin-left: 0.5rem; /* 왼쪽에 2rem 마진 추가 */
+    margin-bottom: 0.8rem;
+}
+
+
+
+.like-button.liked {
+  color: red; /* 좋아요 눌렀을 때: 빨간 하트 표현 */
+}

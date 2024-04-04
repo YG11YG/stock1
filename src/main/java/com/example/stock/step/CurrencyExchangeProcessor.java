@@ -48,7 +48,7 @@ public class CurrencyExchangeProcessor implements ItemProcessor<MainDataEntity, 
 **/
 
         try {
-            String htsAvlsHTSString = item.getHtsAvlsHTS();
+            String htsAvlsHTSString = item.getHtsAvls();
             if (htsAvlsHTSString != null && !htsAvlsHTSString.isEmpty()) {
                 double htsAvlsHTS = Double.parseDouble(htsAvlsHTSString.replaceAll("[^\\d.]", ""));
                 double htsAvlsHTSInUSD = htsAvlsHTS / exchangeRate;
@@ -60,7 +60,15 @@ public class CurrencyExchangeProcessor implements ItemProcessor<MainDataEntity, 
             // 여기에 필요한 예외 처리 로직 추가
         }
 
-
+        String prdyVrssString = item.getPrdyVrss();
+        // 주식 가격에서 숫자가 아닌 문자 제거 후 double 형으로 변환
+        double stckprdyVrss = Double.parseDouble(prdyVrssString.replaceAll("[^\\d.]", ""));
+        // 주식 가격을 달러로 변환
+        double prdyVrssUSD = stckprdyVrss / exchangeRate;
+        // 소수점 세 자리까지 포맷
+        prdyVrssUSD = Double.parseDouble(df.format(prdyVrssUSD));
+// 변환된 주식 가격(달러)을 MainDataEntity 객체에 설정
+        item.setPrdyVrssUSD(prdyVrssUSD);
 
 
         return item; // 처리된 MainDataEntity 객체 반환

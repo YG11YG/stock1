@@ -25,25 +25,11 @@ public class DataEntity {
     @Column(name = "ENGLISHNAME", length = 512)
     private String englishName;
 
+    //@OneToOne(mappedBy = "dataEntity")
+    //private MainDataEntity mainDataEntity;
 
-
-
-
-/**
-    @ManyToOne
-    @JoinColumn(name = "mainDataEntitySTOCKCODE")
-    private MainDataEntity mainDataEntity;
-    **/
-/**
-   @OneToOne(mappedBy = "dataEntities", fetch = FetchType.LAZY)
-   private MainDataEntity mainDataEntity;
-
-**/
-
-
-   // @ManyToOne
-   // @JoinColumn(name = "STOCKCODE", referencedColumnName = "stockCodes", insertable = false, updatable = false)
-   // private MainDataEntity mainData;
+   // @OneToOne(mappedBy = "dataEntity", fetch = FetchType.EAGER)
+   // private MainDataEntity mainDataEntity;
 
 
 }

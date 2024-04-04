@@ -1,0 +1,44 @@
+.stock-list {
+  background: #333;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 24.375rem;
+}
+
+.stock-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #474747;
+  color: white;
+  height: 30px;
+}
+
+.stock-item:last-child {
+  border-bottom: none;
+}
+
+.stock-name,  {
+  flex-basis: 90%;
+  color: white;
+  font-size: 12px;
+}
+
+.stock-code{
+flex-basis: 10%;
+ color: white;
+  font-size: 12px;
+
+}
+
+.stock-name a {
+  color: white;
+  text-decoration: none;
+}
+
+.stock-name a:hover {
+  color: darkred;
+}

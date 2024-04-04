@@ -1,6 +1,8 @@
 package com.example.stock.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //@JsonIgnoreProperties(ignoreUnknown = true) //이게 모든 요소를 안받아도 되는 어노테이션
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @NoArgsConstructor
 @ToString
 @Data
@@ -37,7 +40,7 @@ public class MainDataEntity implements Serializable {
     private String prdyVrssSign; // 전일 대비 부호
 
     @Column
-    private String prdyCtrt; // 전일 대비율
+    private Double prdyCtrt; // 전일 대비율
 
     @Column
     private String acmlVol; // 누적 거래량
@@ -58,7 +61,7 @@ public class MainDataEntity implements Serializable {
     private String stckSdpr; // 주식 기준가
 
     @Column
-    private String htsAvlsHTS; // 시가총액
+    private String htsAvls; // 시가총액
 
     @Column
     private String per;
@@ -76,9 +79,23 @@ public class MainDataEntity implements Serializable {
     private Double stckPrprInUSD; // 달러로 변환된 주식 현재가
 
     @Column
-    private Double HtsAvlsHTSInUSD;
+    private Double HtsAvlsHTSInUSD; //시총
+    
+    @Column
+    private Double prdyVrssUSD; //전일 대비
+    
 
-    public MainDataEntity(Long id, String bstpKorIsnm, String stckPrpr, String prdyVrss, String prdyVrssSign, String prdyCtrt, String acmlVol, String prdyVrssVolRate, String stckOprc, String stckHgpr, String stckLwpr, String stckSdpr, String htsAvlsHTS, String per, String pbr, String cpfnCnnm, String stockCodes) {
+    @Column
+    private String frgnHldnQty;
+
+
+    @Column
+    private String eps;
+
+    @Column
+    private String bps;
+
+    public MainDataEntity(Long id, String bstpKorIsnm, String stckPrpr, String prdyVrss, String prdyVrssSign, Double prdyCtrt, String acmlVol, String prdyVrssVolRate, String stckOprc, String stckHgpr, String stckLwpr, String stckSdpr, String htsAvls, String per, String pbr,String frgnHldnQty, String eps, String bps, String cpfnCnnm, String stockCodes) {
         this.id = id;
         this.bstpKorIsnm = bstpKorIsnm;
         this.stckPrpr = stckPrpr;
@@ -91,11 +108,14 @@ public class MainDataEntity implements Serializable {
         this.stckHgpr = stckHgpr;
         this.stckLwpr = stckLwpr;
         this.stckSdpr = stckSdpr;
-        this.htsAvlsHTS = htsAvlsHTS;
+        this.htsAvls = htsAvls;
         this.per = per;
         this.pbr = pbr;
         this.cpfnCnnm = cpfnCnnm;
         this.stockCodes = stockCodes;
+        this.frgnHldnQty = frgnHldnQty;
+        this.eps = eps;
+        this.bps = bps;
     }
 
 // eager로 바꾸니까 엔티티가 합쳐짐 문제는 아직도 null이라는 점
@@ -104,28 +124,14 @@ public class MainDataEntity implements Serializable {
     @JoinColumn(name = "id", referencedColumnName = "id")
     private DataEntity dataEntity;
 
-    /**
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "dataEntitystockCodes")
-    private DataEntity dataEntities;
 
 
-    public void setDataEntity(DataEntity dataEntities) {
-        this.dataEntities = dataEntities;
-        dataEntities.setMainDataEntity(this);
-    }
-**/
+/**
 
-    /**
-
-    @OneToMany(mappedBy = "mainDataEntity")
-    private List<DataEntity> dataEntities = new ArrayList<>();
-
-    public  void addDataEntity(DataEntity dataEntity){
-        this.dataEntities.add(dataEntity);
-        dataEntity.setMainDataEntity(this);
-    }
-**/
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
+    private DataEntity dataEntity;
+ **/
 
 }
 

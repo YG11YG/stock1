@@ -9,6 +9,8 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Data
+@Setter
+@Getter
 
 public class MainDataDto {
 
@@ -34,7 +36,7 @@ public class MainDataDto {
         @JsonProperty("prdy_vrss_sign")
         private String prdy_vrss_sign; //전일 대비 부호
         @JsonProperty("prdy_ctrt")
-        private String prdy_ctrt; //전일 대비율
+        private Double prdy_ctrt; //전일 대비율
         @JsonProperty("acml_vol")
         private String acml_vol; //누적 거래량
         @JsonProperty("prdy_vrss_vol_rate")
@@ -47,12 +49,19 @@ public class MainDataDto {
         private String stck_lwpr; //주식 하한가
         @JsonProperty("stck_sdpr")
         private String stck_sdpr; //주식 기준가
-        @JsonProperty("hts_avlsHTS")
-        private String hts_avlsHTS; //시가총액
+        @JsonProperty("hts_avls")
+        private String hts_avls; //시가총액
         @JsonProperty("per")
         private String per;
         @JsonProperty("pbr")
         private String pbr;
+        @JsonProperty("frgnHldn")
+        private String frgn_hldn_qty;
+
+        @JsonProperty("eps")
+        private String eps;
+        @JsonProperty("bps")
+        private String bps;
 
         @JsonProperty("cpfn_cnnm")
         private String cpfn_cnnm; //자본금 통화명
@@ -68,7 +77,7 @@ output.getBstp_kor_isnm(),
  this.output.getStck_prpr(), this.output.getPrdy_vrss(), this.output.getPrdy_vrss_sign(),
  this.output.getPrdy_ctrt(), this.output.getAcml_vol(), this.output.getPrdy_vrss_vol_rate(),
  this.output.getStck_oprc(), this.output.getStck_hgpr(), this.output.getStck_lwpr(),
- this.output.getStck_sdpr(), this.output.getHts_avlsHTS(), this.output.getPer(), this.output.getPbr(),this.output.getCpfn_cnnm(),this.stockCodes);
+ this.output.getStck_sdpr(), this.output.getHts_avls(), this.output.getPer(), this.output.getPbr(),this.output.getEps(),this.output.getBps(),this.output.getCpfn_cnnm(),this.output.getCpfn_cnnm(),this.stockCodes);
         return entity;
     }
 }
