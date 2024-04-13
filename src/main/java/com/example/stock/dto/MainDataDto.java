@@ -55,7 +55,7 @@ public class MainDataDto {
         private String per;
         @JsonProperty("pbr")
         private String pbr;
-        @JsonProperty("frgnHldn")
+        @JsonProperty("frgn_hldn_qty")
         private String frgn_hldn_qty;
 
         @JsonProperty("eps")
@@ -68,16 +68,28 @@ public class MainDataDto {
 
     }
 
-
+    @Builder
     public MainDataEntity toEntity() {
-        MainDataEntity entity = new MainDataEntity(null,
-
-
-output.getBstp_kor_isnm(),
- this.output.getStck_prpr(), this.output.getPrdy_vrss(), this.output.getPrdy_vrss_sign(),
- this.output.getPrdy_ctrt(), this.output.getAcml_vol(), this.output.getPrdy_vrss_vol_rate(),
- this.output.getStck_oprc(), this.output.getStck_hgpr(), this.output.getStck_lwpr(),
- this.output.getStck_sdpr(), this.output.getHts_avls(), this.output.getPer(), this.output.getPbr(),this.output.getEps(),this.output.getBps(),this.output.getCpfn_cnnm(),this.output.getCpfn_cnnm(),this.stockCodes);
-        return entity;
+        return MainDataEntity.builder()
+                .bstpKorIsnm(this.output.getBstp_kor_isnm()) // 업종 한글 종목명
+                .stckPrpr(this.output.getStck_prpr()) // 주식 현재가
+                .prdyVrss(this.output.getPrdy_vrss()) // 전일 대비
+                .prdyVrssSign(this.output.getPrdy_vrss_sign()) // 전일 대비 부호
+                .prdyCtrt(this.output.getPrdy_ctrt()) // 전일 대비율
+                .acmlVol(this.output.getAcml_vol()) // 누적 거래량
+                .prdyVrssVolRate(this.output.getPrdy_vrss_vol_rate()) // 전일 대비 거래량 비율
+                .stckOprc(this.output.getStck_oprc()) // 주식 시가
+                .stckHgpr(this.output.getStck_hgpr()) // 주식 최고가
+                .stckLwpr(this.output.getStck_lwpr()) // 주식 하한가
+                .stckSdpr(this.output.getStck_sdpr()) // 주식 기준가
+                .htsAvls(this.output.getHts_avls()) // 시가총액
+                .per(this.output.getPer()) // PER
+                .pbr(this.output.getPbr()) // PBR
+                .eps(this.output.getEps()) // EPS
+                .bps(this.output.getBps()) // BPS
+                .cpfnCnnm(this.output.getCpfn_cnnm()) // 자본금 통화명
+                .frgnHldnQty(this.output.getFrgn_hldn_qty()) // 외국인 보유수량
+                .stockCodes(this.stockCodes) // 주식 코드
+                .build();
     }
 }

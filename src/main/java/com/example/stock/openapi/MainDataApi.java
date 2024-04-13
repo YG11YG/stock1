@@ -84,10 +84,9 @@ public class MainDataApi {
                         MainDataEntity mainDataEntity = mainData.toEntity(); // DTO를 Entity로 변환
 
 
-
                         mainDataRepository.save(mainDataEntity); // 변환된 Entity를 저장
 
-                        mainDataRepository.save(mainDataEntity);
+
                 }
 
                         break;

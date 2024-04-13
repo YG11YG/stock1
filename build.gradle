@@ -41,7 +41,11 @@ dependencies {
 	implementation 'org.json:json:20210307'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'org.springframework.session:spring-session-jdbc'
+
 }
+
+
+
 
 tasks.named('bootBuildImage') {
 	builder = 'paketobuildpacks/builder-jammy-base:latest'
@@ -49,4 +53,12 @@ tasks.named('bootBuildImage') {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+
+jar {
+
+	enabled = false
+
+
 }

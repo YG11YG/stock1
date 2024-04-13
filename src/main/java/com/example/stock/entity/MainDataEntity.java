@@ -18,7 +18,7 @@ import java.util.List;
 @Table(name = "mainData")
 @Entity
 @Getter
-@Setter
+
 public class MainDataEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -95,6 +95,7 @@ public class MainDataEntity implements Serializable {
     @Column
     private String bps;
 
+    @Builder
     public MainDataEntity(Long id, String bstpKorIsnm, String stckPrpr, String prdyVrss, String prdyVrssSign, Double prdyCtrt, String acmlVol, String prdyVrssVolRate, String stckOprc, String stckHgpr, String stckLwpr, String stckSdpr, String htsAvls, String per, String pbr,String frgnHldnQty, String eps, String bps, String cpfnCnnm, String stockCodes) {
         this.id = id;
         this.bstpKorIsnm = bstpKorIsnm;
