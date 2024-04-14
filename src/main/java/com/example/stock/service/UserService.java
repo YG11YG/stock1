@@ -34,4 +34,16 @@ public class UserService {
 
         return user;
     }
+
+
+
+    public Optional<User> findByEmail(String email) {
+        logger.info("Searching for user by email: {}", email);
+
+        return userRepository.findByEmail(email);
+    }
+
+
+
+
 }

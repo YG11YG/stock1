@@ -1,4 +1,4 @@
-package com.example.stock.batch;
+package com.example.stock.config;
 
 
 import com.example.stock.entity.MainDataEntity;
@@ -6,7 +6,6 @@ import com.example.stock.entity.MainDataEntity;
 
 import com.example.stock.repository.MainDataRepository;
 import com.example.stock.service.ExchangeRateFetcher;
-import com.example.stock.service.ExchangeRateService;
 import com.example.stock.step.CurrencyExchangeProcessor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;

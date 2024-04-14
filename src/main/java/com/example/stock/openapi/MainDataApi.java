@@ -5,10 +5,15 @@ import com.example.stock.entity.MainDataEntity;
 import com.example.stock.repository.DataRepository;
 import com.example.stock.repository.MainDataRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
+import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -21,7 +26,10 @@ import java.util.List;
 
 @Service
 public class MainDataApi {
-
+    @Autowired
+    private JobLauncher jobLauncher;
+    @Autowired
+    private Job job; // 설정한 Job 빈을 주입
     @Autowired
     private MainDataRepository mainDataRepository;
     @Autowired
@@ -32,6 +40,26 @@ public class MainDataApi {
     private static final int MAX_BACKOFF_INTERVAL = 32000; // 최대 대기 시간 (32초)
     private static final int MAX_RETRY_ATTEMPTS = 5; // 최대 재시도 횟수
 
+    @Scheduled(fixedRate = 600000) // 10분마다 실행
+    public void fetchAndProcessData() {
+        try {
+            // 데이터 수집 로직
+            fetchData();
+
+            // 데이터 수집 후 배치 작업 실행
+            JobParameters params = new JobParametersBuilder()
+                    .addLong("time", System.currentTimeMillis())
+                    .toJobParameters();
+            jobLauncher.run(job, params);
+        } catch (Exception e) {
+            // 에러 처리 로직
+            e.printStackTrace();
+        }
+    }
+
+    private void fetchData() {
+        // 여기에 데이터를 수집하는 로직 구현
+    }
     @Bean
     public void fetchStockData() throws IOException {
 

@@ -1,3 +1,9 @@
+body {
+    width: 24.375rem;
+    margin: 0 auto; /* 가운데 정렬 */
+}
+
+
 .stock-list {
   background: #333;
   border-radius: 8px;

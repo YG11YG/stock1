@@ -5,6 +5,7 @@ import com.example.stock.entity.AccessEntity;
 import com.example.stock.repository.AccessRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class TokenRequest {
 
     @Autowired
     private AccessRepository accessRepository;
-
+    @Scheduled(cron = "0 0 0 * * ?")
     public String getAccessToken() throws IOException {
         // API Endpoint
         String url = "https://openapi.koreainvestment.com:9443/oauth2/tokenP";

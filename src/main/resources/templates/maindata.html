@@ -22,17 +22,19 @@
 
 
 <div class="top-bar">
-    <div th:if="${userName}">
-        Logged in as: <span th:text="${userName}" id="user"></span>
-        <a href="/logout" class="btn btn-info active" role="button">Logout</a>
+    <div th:if="${user1}">
+        <a th:text="${user1}" id="user"></a>
+        <a href="/oauth2/authorization/google" class="btn btn-info active" role="button">Logout</a>
     </div>
 
-    <div th:unless="${userName}">
+    <div th:unless="${user1}">
         <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
     </div>
 
+
+
     <form action="/search" method="get">
-        <input type="text" name="keyword" placeholder="주식 이름 검색...">
+        <input type="text" name="keyword" placeholder="keyword">
         <button type="submit">검색</button>
     </form>
 </div>

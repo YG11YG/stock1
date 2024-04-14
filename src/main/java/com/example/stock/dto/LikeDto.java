@@ -16,7 +16,7 @@ public class LikeDto {
     private Long id;
     private Long userId;
     private Long stockId;
-    private LocalDateTime likedAt;
+
 
 
     public static class UserData {

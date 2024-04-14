@@ -5,7 +5,17 @@
     <title>검색 결과</title>
 </head>
 <body>
-<h1>검색 결과</h1>
+
+
+
+<form action="/search" method="get">
+    <input type="text" name="keyword" placeholder="keyword">
+    <button type="submit">검색</button>
+</form>
+</div>
+
+
+<h1>Search Results</h1>
 
 <div class="stock-list">
     <div th:each="stock : ${searchResults}" class="stock-item">
