@@ -40,36 +40,34 @@ public class TokenRequest {
 
         try {
             HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        //    System.out.println("Response status code: " + response.statusCode());
-        //    System.out.println("Response body: " + response.body());
 
 
-            // JSON 응답을 Java 객체로 변환
             ObjectMapper mapper = new ObjectMapper();
             AccessTokenResponse accessTokenResponse = mapper.readValue(response.body(), AccessTokenResponse.class);
 // Access Token을 AccessEntity 객체로 변환
-           // AccessEntity accessEntity = accessTokenResponse.toEntity();
+             AccessEntity accessEntity = accessTokenResponse.toEntity();
 
             // 변환된 AccessEntity 객체를 데이터베이스에 저장
-           // accessRepository.save(accessEntity);
+            accessRepository.save(accessEntity);
             // 필요한 access_token 값 출력
             System.out.println("Access Token: " + accessTokenResponse.getAccess_token());
-            return "Bearer " + accessTokenResponse.getAccessToken();
+            //  return "Bearer " + accessTokenResponse.getAccessToken();
             // accessRepository에서 가장 최근에 저장된 AccessEntity 가져오기
-            /**
-             AccessEntity accessCode = accessRepository.findTopByOrderByIdDesc();
+
+            AccessEntity accessCode = accessRepository.findTopByOrderByIdDesc();
 
             // AccessEntity가 존재하면, 그 안의 토큰 반환
             if (accessCode != null) {
-                return "Bearer " + accessCode;
+                return "Bearer " + accessCode.getAccessKey();
             } else {
                 return null; // 또는 적절한 예외 처리
             }
-**/
-        } catch (Exception e) {
-            e.printStackTrace();
 
-            return null;
+
+        } catch (Exception e) {
+         e.printStackTrace();
+
+          return null;
         }
-    }
+   }
 }

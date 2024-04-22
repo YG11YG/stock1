@@ -42,7 +42,7 @@ public class StockBatchConfig {
                 .name("mainDataReader")
                 .entityManagerFactory(entityManagerFactory)
                 .pageSize(100)
-                .queryString("SELECT m FROM MainDataEntity m") // 쿼리 수정
+                .queryString("SELECT m FROM MainDataEntity m")
                 .build();
     }
 

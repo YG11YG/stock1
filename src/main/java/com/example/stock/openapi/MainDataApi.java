@@ -2,19 +2,24 @@ package com.example.stock.openapi;
 
 import com.example.stock.dto.MainDataDto;
 import com.example.stock.entity.MainDataEntity;
+import com.example.stock.repository.AccessRepository;
 import com.example.stock.repository.DataRepository;
 import com.example.stock.repository.MainDataRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
+import org.springframework.batch.core.JobParametersInvalidException;
 import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
+import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,49 +34,33 @@ public class MainDataApi {
     @Autowired
     private JobLauncher jobLauncher;
     @Autowired
-    private Job job; // 설정한 Job 빈을 주입
+    private Job mainDataProcessingJob;
+
     @Autowired
     private MainDataRepository mainDataRepository;
     @Autowired
     private TokenRequest tokenRequest;
     @Autowired
     private DataRepository dataRepository;
-    private static final int INITIAL_BACKOFF_INTERVAL = 1000; // 초기 대기 시간 (1초)
-    private static final int MAX_BACKOFF_INTERVAL = 32000; // 최대 대기 시간 (32초)
-    private static final int MAX_RETRY_ATTEMPTS = 5; // 최대 재시도 횟수
+    private static final int INITIAL_BACKOFF_INTERVAL = 1000;
+    private static final int MAX_BACKOFF_INTERVAL = 32000;
+    private static final int MAX_RETRY_ATTEMPTS = 5;
 
-    @Scheduled(fixedRate = 600000) // 10분마다 실행
-    public void fetchAndProcessData() {
-        try {
-            // 데이터 수집 로직
-            fetchData();
-
-            // 데이터 수집 후 배치 작업 실행
-            JobParameters params = new JobParametersBuilder()
-                    .addLong("time", System.currentTimeMillis())
-                    .toJobParameters();
-            jobLauncher.run(job, params);
-        } catch (Exception e) {
-            // 에러 처리 로직
-            e.printStackTrace();
-        }
-    }
-
-    private void fetchData() {
-        // 여기에 데이터를 수집하는 로직 구현
-    }
+    @Scheduled(cron = "0 0/10 9-16 * * *")
     @Bean
     public void fetchStockData() throws IOException {
 
-        String authorization = tokenRequest.getAccessToken();//"bear" + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6ImJkZjU4MzhiLTMwMTktNDQ5YS1hYzg4LWQ2ZjdhMjM3NGRkYyIsImlzcyI6InVub2d3IiwiZXhwIjoxNzA1NTY4NTM4LCJpYXQiOjE3MDU0ODIxMzgsImp0aSI6IlBTdjdLQTI3Mlp0dnE1bGFOa0podnRDc3padjFnTUp5TEhMeiJ9.On3tlcuHAoz8aHtNF-6V_XTX75S18pNPTlL5ttoMfwPvctbNM8OZUU1gb-2-PyGgHVNp7lY71BAM32FKspJO_A";//
+        String authorization = tokenRequest.getAccessToken();
 
-        Pageable limit = PageRequest.of(0, 100);
-        List<String> stockCodes = dataRepository.findAllStockCodes(limit);//이거 들어갈때 리포지터리에 쿼리를 작성해야한다
+        System.out.println("전설의키 " + authorization);
+
+        //Pageable limit = PageRequest.of(0, 100);
+        List<String> stockCodes = dataRepository.findAllStockCodes();//limit);
 
 
         for (String fid_input_iscd : stockCodes) {
 
-// 백오프 알고리즘을 위한 변수
+
             int currentBackoffInterval = INITIAL_BACKOFF_INTERVAL;
             int retryCount = 0;
 
@@ -81,10 +70,6 @@ public class MainDataApi {
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");
 
-                   // connection.setConnectTimeout(10000); // 연결 타임아웃 10초
-                   // connection.setReadTimeout(20000);    // 읽기 타임아웃 20초
-
-                    //connection.setRequestMethod("GET");
 
                     connection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
                     connection.setRequestProperty("authorization", authorization);
@@ -103,37 +88,48 @@ public class MainDataApi {
 
                         ObjectMapper mapper = new ObjectMapper();
 
-
-
                         MainDataDto mainData = mapper.readValue(response.toString(), MainDataDto.class);
-                       //System.out.println(mainData.toString());
 
-                        mainData.setStockCodes(fid_input_iscd); // 적절한 메소드로 stockCode 조회
-                        MainDataEntity mainDataEntity = mainData.toEntity(); // DTO를 Entity로 변환
+                        mainData.setStockCodes(fid_input_iscd);
+                        MainDataEntity mainDataEntity = mainData.toEntity();
 
-
-                        mainDataRepository.save(mainDataEntity); // 변환된 Entity를 저장
+                        mainDataRepository.save(mainDataEntity);
 
 
-                }
-
-                        break;
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        // 재시도 카운트 증가
-                        retryCount++;
-                        try {
-                            // 재시도 전 대기
-                            Thread.sleep(currentBackoffInterval);
-                        } catch (InterruptedException j) {
-                            Thread.currentThread().interrupt(); // 인터럽트 상태 복원
-                            throw new RuntimeException(j); // 또는 다른 적절한 예외 처리
-                        }
-                        // 대기 시간 증가 (2배)
-                        currentBackoffInterval = Math.min(currentBackoffInterval * 2, MAX_BACKOFF_INTERVAL);
                     }
+
+                    break;
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                    retryCount++;
+                    try {
+
+                        Thread.sleep(currentBackoffInterval);
+                    } catch (InterruptedException j) {
+                        Thread.currentThread().interrupt();
+                        throw new RuntimeException(j);
+                    }
+
+                    currentBackoffInterval = Math.min(currentBackoffInterval * 2, MAX_BACKOFF_INTERVAL);
                 }
+
+
             }
         }
+        try {
+            JobParameters jobParameters = new JobParametersBuilder()
+                    .addLong("time", System.currentTimeMillis())
+                    .toJobParameters();
+
+            jobLauncher.run(mainDataProcessingJob, jobParameters);
+        } catch (JobExecutionAlreadyRunningException | JobRestartException |
+                 org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException |
+                 JobParametersInvalidException e) {
+            // 예외 처리
+            System.err.println("배치 작업 실행 오류: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
+}
 

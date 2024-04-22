@@ -12,19 +12,14 @@
     <title>Main Data</title>
     <style>
 
-
-
     </style>
 </head>
 <body>
 
-
-
-
 <div class="top-bar">
     <div th:if="${user1}">
-        <a th:text="${user1}" id="user"></a>
-        <a href="/oauth2/authorization/google" class="btn btn-info active" role="button">Logout</a>
+        <a th:text="${user1}" id="user" style="font-size: 9px;"></a>
+        <a href="/oauth2/authorization/google" class="btn btn-info active" role="button" style="font-size: 12px;">Logout</a>
     </div>
 
     <div th:unless="${user1}">
@@ -32,29 +27,14 @@
     </div>
 
 
-
     <form action="/search" method="get">
-        <input type="text" name="keyword" placeholder="keyword">
-        <button type="submit">검색</button>
+        <input type="text" name="keyword" placeholder="keyword" style="width: 100px;">
+        <button type="submit">Search</button>
     </form>
 </div>
 
 
-
-
-
-
 <h4>Watchlist </h4>
-
-
-<!--
-<div>
-    <div th:each="like : ${userLikes}" class="stock-item">
-
-        <div th:text="${like.mainDataEntity.dataEntity.englishName}">주식명</div>
-         여기에 추가적인 좋아요 항목 정보를 표시할 수 있습니다.
-    </div>
-</div>-->
 
 
 
@@ -84,9 +64,6 @@
     </div>
 
 </table>
-
-
-
 
 
 <h4>Top Gainers by Percentage</h4>
@@ -201,12 +178,6 @@
 
 </table>
 
-
-
-
 </body>
-
-
-
 
 </html>

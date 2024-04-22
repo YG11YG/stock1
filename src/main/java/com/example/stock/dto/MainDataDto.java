@@ -57,15 +57,12 @@ public class MainDataDto {
         private String pbr;
         @JsonProperty("frgn_hldn_qty")
         private String frgn_hldn_qty;
-
         @JsonProperty("eps")
         private String eps;
         @JsonProperty("bps")
         private String bps;
-
         @JsonProperty("cpfn_cnnm")
         private String cpfn_cnnm; //자본금 통화명
-
     }
 
     @Builder

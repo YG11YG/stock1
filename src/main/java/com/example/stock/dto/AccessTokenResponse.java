@@ -10,11 +10,9 @@ import lombok.Data;
 public class AccessTokenResponse {
     @JsonProperty("access_token")
     private String access_token;
-
     public String getAccessToken() {
         return access_token;
     }
-
     public AccessEntity toEntity() {
 
         return new AccessEntity(null,this.getAccess_token());

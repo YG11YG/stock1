@@ -15,9 +15,11 @@ public class AccessEntity {
     @Column(length = 1000)
     private String accessKey;
 
-
     public AccessEntity(Long id, String accessKey) {
         this.id = id;
         this.accessKey = accessKey;
+    }
+    public String getAccessKey() {
+        return this.accessKey;
     }
 }

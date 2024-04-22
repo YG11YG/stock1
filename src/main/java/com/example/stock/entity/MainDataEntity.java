@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-//@JsonIgnoreProperties(ignoreUnknown = true) //이게 모든 요소를 안받아도 되는 어노테이션
+
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @NoArgsConstructor
 @ToString
@@ -28,40 +28,40 @@ public class MainDataEntity implements Serializable {
     private Long id;
 
     @Column
-    private String bstpKorIsnm; // 업종 한글 종목명
+    private String bstpKorIsnm;
 
     @Column
-    private String stckPrpr; // 주식 현재가
+    private String stckPrpr;
 
     @Column
-    private String prdyVrss; // 전일 대비
+    private String prdyVrss;
 
     @Column
-    private String prdyVrssSign; // 전일 대비 부호
+    private String prdyVrssSign;
 
     @Column
-    private Double prdyCtrt; // 전일 대비율
+    private Double prdyCtrt;
 
     @Column
-    private String acmlVol; // 누적 거래량
+    private String acmlVol;
 
     @Column
-    private String prdyVrssVolRate; // 전일 대비 거래량 비율
+    private String prdyVrssVolRate;
 
     @Column
-    private String stckOprc; // 주식 시가
+    private String stckOprc;
 
     @Column
-    private String stckHgpr; // 주식 최고가
+    private String stckHgpr;
 
     @Column
-    private String stckLwpr; // 주식 하한가
+    private String stckLwpr;
 
     @Column
-    private String stckSdpr; // 주식 기준가
+    private String stckSdpr;
 
     @Column
-    private String htsAvls; // 시가총액
+    private String htsAvls;
 
     @Column
     private String per;
@@ -70,19 +70,19 @@ public class MainDataEntity implements Serializable {
     private String pbr;
 
     @Column
-    private String cpfnCnnm; // 자본금 통화명
+    private String cpfnCnnm;
 
     @Column(name = "STOCKCODE")
     private String stockCodes;
 
     @Column
-    private Double stckPrprInUSD; // 달러로 변환된 주식 현재가
+    private Double stckPrprInUSD;
 
     @Column
-    private Double HtsAvlsHTSInUSD; //시총
+    private Double HtsAvlsHTSInUSD;
     
     @Column
-    private Double prdyVrssUSD; //전일 대비
+    private Double prdyVrssUSD;
     
 
     @Column
@@ -119,21 +119,9 @@ public class MainDataEntity implements Serializable {
         this.bps = bps;
     }
 
-// eager로 바꾸니까 엔티티가 합쳐짐 문제는 아직도 null이라는 점
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER) //eager이 엄청 중요하네 fech관련 공부필요
     @JoinColumn(name = "id", referencedColumnName = "id")
     private DataEntity dataEntity;
 
-
-
-/**
-
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-    private DataEntity dataEntity;
- **/
-
 }
-
-

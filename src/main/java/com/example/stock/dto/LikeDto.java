@@ -24,7 +24,6 @@ public class LikeDto {
         private String userName;
         // ... 기타 필요한 필드와 생성자, getter, setter
     }
-
     public static class MainData {
         private Long stockId;
         private String stockName;

@@ -31,7 +31,7 @@ public class LikeEntity {
         this.mainDataEntity = mainDataEntity;
 
     }
-    // 기타 getter, setter, 생성자 등
+
 
 
 

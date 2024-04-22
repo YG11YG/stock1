@@ -16,12 +16,10 @@ public class ConvertedMainDataEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column
-    private String stckPrpr; // 주식 현재가
-
+    private String stckPrpr;
     @Transient
-    private Double stckPrprInUSD; // 달러로 변환된 주식 현재가
+    private Double stckPrprInUSD;
 
-    // 필요한 경우 추가 필드 및 메서드...
+
 }

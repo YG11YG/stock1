@@ -26,7 +26,7 @@
             <h3>Stock Code</h3>
             <p th:text="${stock.stockCodes}">주식 코드 값</p>
         </div>
-        <!-- 나머지 정보 카드들도 아래와 같이 추가 -->
+
         <div class="stat-card">
             <h3>Current Price</h3>
             <p th:text="${stock.stckPrprInUSD}">주식 현재가 값</p>
@@ -35,7 +35,7 @@
             <h3>Day Change</h3>
             <p th:text="${stock.prdyVrssUSD}">전일 대비 값</p>
         </div>
-        <!-- 이하 동일한 방식으로 다른 데이터 필드를 추가 -->
+
         <div class="stat-card">
             <h3>Market Cap</h3>
             <p th:text="${stock.HtsAvlsHTSInUSD}">시가총액</p>
@@ -54,26 +54,15 @@
             <p th:text="${stock.frgnHldnQty}">외국인 거래</p>
         </div>
 
-
-
         <div class="stat-card">
             <h3>Trading Volume</h3>
             <p th:text="${stock.acmlVol}">누적 거래량</p>
         </div>
 
-
-
         <div class="stat-card">
             <h3>EPS</h3>
             <p th:text="${stock.eps}">EPS</p>
         </div>
-
-
-
-
-
-
-
 
     </div>
     <div class="footer">USD</div>

@@ -12,7 +12,6 @@ import java.util.List;
 public class DataService {
 
     private final DataRepository dataRepository;
-
     public List<DataEntity> findByEnglishNameContaining(String keyword) {
         return dataRepository.findByEnglishNameContaining(keyword);
     }

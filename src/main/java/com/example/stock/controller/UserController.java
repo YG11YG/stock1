@@ -10,7 +10,6 @@ public class UserController {
 
     @GetMapping("/user")
     public String user(@AuthenticationPrincipal OAuth2User principal) {
-        // 여기서 principal을 통해 사용자 정보에 접근할 수 있습니다.
         return "User Info: " + principal.getAttributes();
     }
 }
